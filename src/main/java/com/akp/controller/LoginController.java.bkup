@@ -1,0 +1,29 @@
+package com.akp.controller;
+
+import com.akp.model.User;
+import com.akp.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
+
+/**
+ * @author Aashish Patel
+ */
+@RestController("/api/rest")
+public class LoginController {
+
+    @Autowired
+    UserService userService;
+
+    @GetMapping("/login")
+    public @ResponseBody
+    User login(Principal principal) throws Exception {
+        if (principal != null) {
+            return userService.findByUsername(principal.getName()).get();
+        } else throw new Exception("Credentials not valid");
+    }
+}

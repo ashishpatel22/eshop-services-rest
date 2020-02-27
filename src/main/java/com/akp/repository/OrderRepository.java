@@ -1,5 +1,6 @@
 package com.akp.repository;
 
+import com.akp.model.Order;
 import com.akp.model.Product;
 import com.akp.model.Region;
 import org.springframework.data.domain.Page;
@@ -15,8 +16,6 @@ import java.util.Optional;
  * @author Aashish Patel
  */
 @Transactional
-public interface ProductRepository extends JpaRepository<Product, Long>, Serializable {
-    Optional<Product> findById(Long id);
-    Page<Product> findAllByRegion(Region region, Pageable pageable);
-    List<Product> findAllByRegion(Region region);
+public interface OrderRepository extends JpaRepository<Order, Long>, Serializable {
+    Optional<Order> findById(Long id);
 }

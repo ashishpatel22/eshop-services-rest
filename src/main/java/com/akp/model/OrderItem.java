@@ -1,13 +1,10 @@
 package com.akp.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
@@ -19,36 +16,37 @@ import java.math.BigDecimal;
  * @author Aashish Patel
  */
 @Entity
-@Table(name = "product")
+@Table(name = "orderItem")
 @Data
-public class Product implements Serializable {
+@NoArgsConstructor
+public class OrderItem implements Serializable {
 
     private static final long serialversionUID = 4L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "product_id")
+    @Column(name = "orderitem_id")
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    @Length(min = 3, message = "*Name must have at least 5 characters")
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    @EqualsAndHashCode.Exclude
+    private Product product;
 
-    @Column(name = "description")
-    private String description;
-
-    @Column(nullable = false)
+    @Column(name = "quantity", nullable = false)
     @Min(value = 0, message = "*Quantity has to be non negative number")
-    private Integer quantityAvailable;
+    private Integer quantity;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "unitPrice", nullable = false)
     @DecimalMin(value = "0.00", message = "*Price has to be non negative number")
-    private BigDecimal price;
+    private BigDecimal unitPrice;
+
+    @Column(name = "orderItemtotal", nullable = false)
+    private BigDecimal orderItemtotal;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "region_id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     @EqualsAndHashCode.Exclude
-    @JsonManagedReference
-    @ToString.Exclude
-    private Region region;
+    @JsonBackReference
+    private Order order;
 }

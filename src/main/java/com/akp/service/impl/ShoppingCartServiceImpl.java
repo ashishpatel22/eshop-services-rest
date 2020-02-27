@@ -38,15 +38,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService, Serializabl
 
     private static final long serialversionUID = 129348938L;
 
-    @Autowired
-    private final transient ProductRepository productRepository;
-
     private Map<Product, Integer> products = new HashMap<>();
-
-    @Autowired
-    public ShoppingCartServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     /**
      * If product is in the map just increment quantity by 1.
@@ -90,7 +82,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService, Serializabl
 
     @Override
     public ShoppingCart getCart() {
-        return new ShoppingCart(getProductsInCart(), getTotal(), null, null);
+        return new ShoppingCart(getProductsInCart(), getTotal(), new BigDecimal(0.00), null, null);
     }
 
     /**
@@ -100,7 +92,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService, Serializabl
      */
     @Override
     public void checkout() throws NotEnoughProductsInStockException {
-        Optional<Product> product;
+        /*Optional<Product> product;
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {
             // Refresh quantity for every product before checking
             product = productRepository.findById(entry.getKey().getId());
@@ -109,7 +101,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService, Serializabl
             entry.getKey().setQuantity(product.get().getQuantity() - entry.getValue());
         }
         productRepository.saveAll(products.keySet());
-        productRepository.flush();
+        productRepository.flush();*/
         products.clear();
     }
 

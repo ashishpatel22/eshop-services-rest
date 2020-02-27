@@ -6,26 +6,20 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 
-/**
- * @author Aashish Patel
- */
 @Entity
-@Table(name = "role")
+@Table(name = "transaction")
 @Data
-public class Role implements Serializable {
+public class Transaction implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
+    @Column(name = "transaction_id")
     private Long id;
 
-    @Column(name = "role", unique = true)
-    private String role;
-
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "roles")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "order_id", nullable = false)
     @JsonIgnore
     @EqualsAndHashCode.Exclude
-    private Collection<User> users;
+    private Order order;
 }

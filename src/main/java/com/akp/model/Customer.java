@@ -1,13 +1,19 @@
 package com.akp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Aashish Patel
@@ -15,7 +21,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "customer")
 @Data
-public class Customer {
+public class Customer implements Serializable {
 
     @Id
     @Column(name = "customer_id")
@@ -34,6 +40,7 @@ public class Customer {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "region_id", nullable = false)
+    @JsonManagedReference
     private Region region;
 
     @CreationTimestamp
@@ -44,10 +51,12 @@ public class Customer {
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
+    @JsonBackReference
+    @EqualsAndHashCode.Exclude
     private User user;
 
-    public String toString() {
-        return "" + id;
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    private Set<Order> orders = new HashSet<>();
 }

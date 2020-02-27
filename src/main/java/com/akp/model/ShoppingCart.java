@@ -1,12 +1,10 @@
 package com.akp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +14,9 @@ import java.util.Map;
 @Data
 public class ShoppingCart {
 
-    private Map<Product, Integer> products = new HashMap<>();
+    private Map<Product, Integer> products;
     private BigDecimal total;
+    private BigDecimal taxes;
     private Boolean outOfStockStatus;
     private String errorMessage;
 }

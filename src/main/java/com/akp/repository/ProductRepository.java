@@ -14,7 +14,6 @@ import java.util.Optional;
 /**
  * @author Aashish Patel
  */
-@Transactional
 public interface ProductRepository extends JpaRepository<Product, Long>, Serializable {
     Optional<Product> findById(Long id);
     Page<Product> findAllByRegion(Region region, Pageable pageable);

@@ -133,7 +133,7 @@ It is possible to run **Eshop-services-rest** using Docker:
 Build Docker image:
 ```bash
 $ mvn clean package
-$ docker build -t shopping-cart:dev -f docker/Dockerfile .
+$ docker build -t eshop-services-rest:dev -f docker/Dockerfile .
 ```
 
 Run Docker container:

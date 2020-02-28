@@ -15,7 +15,6 @@ import java.util.Optional;
 /**
  * @author Aashish Patel
  */
-@Transactional
 public interface OrderRepository extends JpaRepository<Order, Long>, Serializable {
     Optional<Order> findById(Long id);
 }

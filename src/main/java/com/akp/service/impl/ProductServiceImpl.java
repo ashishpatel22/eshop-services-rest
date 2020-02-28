@@ -27,6 +27,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Optional<Product> findById(Long id) {
+        return productRepository.findById(id);
+    }
+
+    @Override
     public Page<Product> findAllProductsPageable(Pageable pageable) {
         return productRepository.findAll(pageable);
     }
@@ -39,10 +44,5 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findAllProductsByRegionPageable(Region region, Pageable pageable) {
         return productRepository.findAllByRegion(region, pageable);
-    }
-
-    @Override
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
     }
 }

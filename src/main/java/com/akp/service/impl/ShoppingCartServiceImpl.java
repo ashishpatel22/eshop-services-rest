@@ -3,28 +3,17 @@ package com.akp.service.impl;
 import com.akp.exception.NotEnoughProductsInStockException;
 import com.akp.model.Product;
 import com.akp.model.ShoppingCart;
-import com.akp.repository.ProductRepository;
 import com.akp.service.ShoppingCartService;
-import com.fasterxml.jackson.databind.KeyDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.deser.std.MapDeserializer;
-import com.fasterxml.jackson.databind.ser.std.MapSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.annotation.ApplicationScope;
-import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Shopping Cart is implemented with a Map, and as a session bean
@@ -49,10 +38,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService, Serializabl
     @Override
     public void addProduct(Product product) {
         if (products.containsKey(product)) {
-            products.replace(product, products.get(product) + 1);
-        } else {
+            if(product.getQuantityAvailable() > products.get(product)) {
+                products.replace(product, products.get(product) + 1);
+            } else
+                throw new NotEnoughProductsInStockException(product);
+
+        } else if (product.getQuantityAvailable() > 0) {
             products.put(product, 1);
-        }
+        } else
+            throw new NotEnoughProductsInStockException(product);
     }
 
     /**
@@ -81,32 +75,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService, Serializabl
     }
 
     @Override
-    public ShoppingCart getCart() {
-        return new ShoppingCart(getProductsInCart(), getTotal(), new BigDecimal(0.00), null, null);
+    public ShoppingCart getShoppingCart() {
+        return new ShoppingCart(getProductsInCart(), getShoppingCartTotal(), new BigDecimal(0.00), null, null);
     }
 
     /**
-     * Checkout will rollback if there is not enough of some product in stock
+     * Clear all the items from the cart
      *
-     * @throws NotEnoughProductsInStockException
      */
     @Override
-    public void checkout() throws NotEnoughProductsInStockException {
-        /*Optional<Product> product;
-        for (Map.Entry<Product, Integer> entry : products.entrySet()) {
-            // Refresh quantity for every product before checking
-            product = productRepository.findById(entry.getKey().getId());
-            if (product.get().getQuantity() < entry.getValue())
-                throw new NotEnoughProductsInStockException(product.get());
-            entry.getKey().setQuantity(product.get().getQuantity() - entry.getValue());
-        }
-        productRepository.saveAll(products.keySet());
-        productRepository.flush();*/
-        products.clear();
+    public void clearShoppingCart() {
+       products.clear();
     }
 
     @Override
-    public BigDecimal getTotal() {
+    public BigDecimal getShoppingCartTotal() {
         return products.entrySet().stream()
                 .map(entry -> entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())))
                 .reduce(BigDecimal::add)

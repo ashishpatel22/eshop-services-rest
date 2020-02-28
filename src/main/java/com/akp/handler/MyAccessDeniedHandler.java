@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
@@ -31,9 +32,9 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
 
         if (auth != null) {
             logger.info(String.format("User '%s' attempted to access the protected URL: %s", auth.getName(), httpServletRequest.getRequestURI()));
+            throw new AccessDeniedException("User" + auth.getName() + " is not authenticated to access the protected URL:" + httpServletRequest.getRequestURI());
+        } else {
+            throw new UsernameNotFoundException("User is not authenticated, please provide authentication credentials");
         }
-
-        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/403");
-
     }
 }

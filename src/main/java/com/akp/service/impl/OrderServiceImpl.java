@@ -1,5 +1,6 @@
 package com.akp.service.impl;
 
+import com.akp.exception.EmptyShoppingCartException;
 import com.akp.exception.NotEnoughProductsInStockException;
 import com.akp.model.*;
 import com.akp.repository.OrderItemRepository;
@@ -16,7 +17,7 @@ import java.util.*;
 
 /**
  * @author Aashish Patel
- * Service implementation for product servies
+ * Service implementation for order services
  */
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -42,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order submitOrder(Customer customer, PaymentType paymentType) throws Exception {
+    public Order submitOrder(Customer customer, PaymentType paymentType) throws EmptyShoppingCartException, NotEnoughProductsInStockException {
 
         Optional<Product> product;
         Set<OrderItem> orderItems = new HashSet<>();
@@ -76,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
             order.setCustomer(customer);
             order.setTransaction(transaction);
             transaction.setOrder(order);
-            order.setOrderTotal(shoppingCartService.getTotal());
+            order.setOrderTotal(shoppingCartService.getShoppingCartTotal());
             order.setPaymentType(paymentType);
             order.setOrderStatus(OrderStatus.SUBMITTED);
             orderRepository.save(order);
@@ -85,10 +86,10 @@ public class OrderServiceImpl implements OrderService {
             transactionRepository.flush();
             orderItemRepository.flush();
             orderRepository.flush();
-            shoppingCartService.checkout();
+            shoppingCartService.clearShoppingCart();
             return order;
         } else{
-            throw new Exception("Shopping cart is empty");
+            throw new EmptyShoppingCartException("Shopping cart is empty, no item in the shopping cart.");
         }
     }
 }

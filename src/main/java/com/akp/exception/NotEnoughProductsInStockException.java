@@ -5,7 +5,7 @@ import com.akp.model.Product;
 /**
  * @author Aashish Patel
  */
-public class NotEnoughProductsInStockException extends Exception {
+public class NotEnoughProductsInStockException extends RuntimeException {
 
     private static final String DEFAULT_MESSAGE = "Not enough products in stock";
 

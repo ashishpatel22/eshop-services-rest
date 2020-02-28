@@ -1,5 +1,6 @@
 package com.akp.controller;
 
+import com.akp.exception.InvalidProductIdException;
 import com.akp.exception.NotEnoughProductsInStockException;
 import com.akp.model.ShoppingCart;
 import com.akp.service.ProductService;
@@ -8,6 +9,7 @@ import com.akp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,44 +43,38 @@ public class ShoppingCartController {
     }
 
     private ShoppingCart loadShoppingCart() {
-        return shoppingCartService.getCart();
+        return shoppingCartService.getShoppingCart();
     }
 
     @GetMapping("/rest/api/shoppingcart/addProduct/{productId}")
     public @ResponseBody
-    ResponseEntity<ShoppingCart> addProductToCart(@PathVariable("productId") Long productId, Principal principal) throws Exception {
+    ResponseEntity<ShoppingCart> addProductToCart(@PathVariable("productId") Long productId, Principal principal) {
 
-        if (productService.findById(productId).isPresent() && userService.findByUsername(principal.getName()).isPresent()) {
+        if (productService.findById(productId).isPresent()) {
             if (productService.findById(productId).get().getRegion().getId().equals(userService.findByUsername(principal.getName()).get().getCustomer().getRegion().getId())) {
                 productService.findById(productId).ifPresent(shoppingCartService::addProduct);
             } else {
-                throw new Exception("Product and customer region does not match");
+                throw new AccessDeniedException(String.format("Product id %s region : %d does not match with customer region: %k",
+                        productId, productService.findById(productId).get().getRegion().getId(), userService.findByUsername(principal.getName()).get().getCustomer().getRegion().getId()));
             }
         } else {
-            throw new Exception("Invalid product id or customer is not authenticated");
+            throw new InvalidProductIdException(String.format("Invalid product id: %s", productId));
         }
 
-        return new ResponseEntity<ShoppingCart>(shoppingCartService.getCart(), HttpStatus.OK);
+        return new ResponseEntity<ShoppingCart>(shoppingCartService.getShoppingCart(), HttpStatus.OK);
     }
 
     @GetMapping("/rest/api/shoppingcart/removeProduct/{productId}")
     public @ResponseBody
     ResponseEntity<ShoppingCart> removeProductFromCart(@PathVariable("productId") Long productId) {
         productService.findById(productId).ifPresent(shoppingCartService::removeProduct);
-        return new ResponseEntity<ShoppingCart>(shoppingCartService.getCart(), HttpStatus.OK);
+        return new ResponseEntity<ShoppingCart>(shoppingCartService.getShoppingCart(), HttpStatus.OK);
     }
 
-    @GetMapping("/rest/api/shoppingcart/checkout")
+    @GetMapping("/rest/api/shoppingcart/clear")
     public @ResponseBody
     ResponseEntity<ShoppingCart> checkout() {
-        try {
-            shoppingCartService.checkout();
-        } catch (NotEnoughProductsInStockException e) {
-            ShoppingCart shoppingCart = loadShoppingCart();
-            shoppingCart.setOutOfStockStatus(true);
-            shoppingCart.setErrorMessage(e.getMessage());
-            return new ResponseEntity<ShoppingCart>(shoppingCart, HttpStatus.OK);
-        }
+        shoppingCartService.clearShoppingCart();
         return shoppingCart();
     }
 }

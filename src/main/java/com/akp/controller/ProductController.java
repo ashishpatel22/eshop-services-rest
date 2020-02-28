@@ -1,5 +1,6 @@
 package com.akp.controller;
 
+import com.akp.exception.NoProductFoundByRegionException;
 import com.akp.model.Product;
 import com.akp.model.User;
 import com.akp.service.ProductService;
@@ -37,19 +38,10 @@ public class ProductController {
     }
 
     @GetMapping("/api/rest/product/browse")
-    public @ResponseBody ResponseEntity<List<Product>> getEligibleProducts(Principal principal) throws Exception {
+    public @ResponseBody ResponseEntity<List<Product>> getEligibleProducts(Principal principal) {
 
-        if (principal == null || principal.getName().isEmpty()) {
-
-            throw new Exception("User not loggied in, please login first!");
-        }
         Optional<User> user = userService.findByUsername(principal.getName());
 
-        /**
-         * Evaluate page. If requested parameter is null or less than 0 (to
-         * prevent exception), return initial size. Otherwise, return value of
-         * param. decreased by 1.
-         * */
         /* Filtering the products based on customer region */
         List<Product> products = productService.findAllProductsByRegion(user.get().getCustomer().getRegion());
 
@@ -57,8 +49,7 @@ public class ProductController {
 
             return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
         }  else {
-            return new ResponseEntity<List<Product>>(HttpStatus.NO_CONTENT);
-            //You many decide to return HttpStatus.NOT_FOUND
+            throw new NoProductFoundByRegionException(String.format("No product found matching the customer region: %s") + user.get().getCustomer().getRegion());
         }
     }
 }

@@ -20,9 +20,9 @@ public interface ShoppingCartService extends Serializable {
 
     Map<Product, Integer> getProductsInCart();
 
-    void checkout() throws NotEnoughProductsInStockException;
+    void clearShoppingCart();
 
-    BigDecimal getTotal();
+    BigDecimal getShoppingCartTotal();
 
-    ShoppingCart getCart();
+    ShoppingCart getShoppingCart();
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,12 +18,12 @@ import java.util.Optional;
  * @author Aashish Patel
  */
 @RestController
-public class UserController {
+public class LoginController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/api/rest/user/{id}}")
+    @GetMapping("/api/rest/login")
     public @ResponseBody
     ResponseEntity<User> getUser(Principal principal) throws Exception {
 

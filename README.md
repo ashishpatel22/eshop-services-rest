@@ -1,25 +1,54 @@
-# Spring Boot Shopping Cart Web App
+# Eshop-services-rest
+## Spring Boot REST based Shopping Cart Services
 
 ## About
 
-This is a demo project for practicing Spring + Thymeleaf. The idea was to build some basic shopping cart web app.
+This is a demo project for practicing SpringBoot + REST + Session with jdbc store type + LOMBOK.
+ The idea is to build basic REST based shopping cart services like 
+ - product browsing
+ - shopping cart operations like add, remove products and view cart details
+ - checkout - capturing payment method, order submission, place order and generate order id
+ - view order details
 
-It was made using **Spring Boot**, **Spring Security**, **Thymeleaf**, **Spring Data JPA**, **Spring Data REST and Docker**. 
+It is based on 
+    **Spring Boot**, 
+    **Spring Security**, 
+    **Spring Data JPA**,
+    **Spring Data REST**
+    **Spring JDBC sesson**
+    **and Docker**. 
 Database is in memory **H2**.
 
-There is a login and registration functionality included.
+There is a login and registration functionality included and the session is stored using JDBC store type.
 
 Users can shop for products. Each user has his own shopping cart (session functionality).
 Checkout is transactional.
+
+
+### REST API details
+1. login : http://localhost:8070/api/rest/login
+   set base authentication details (username and password)
+   testadmin/password
+2. Get products url : http://localhost:8070/api/rest/product/browse
+
+3. Add products url : http://localhost:8070/rest/api/shoppingcart/addProduct/4
+
+4. Remove products url : http://localhost:8070/rest/api/shoppingcart/removeProduct/1
+
+5. View shopping cart details url: http://localhost:8070/rest/api/shoppingcart/
+
+6. Submit cart passing payment type : http://localhost:8070/rest/api/order/submit/{CREDITCARD}
+
+7.  View order (confirmation) url : http://localhost:8070/rest/api/order/1
 
 ## Configuration
 
 ### Configuration Files
 
-Folder **src/resources/** contains config files for **shopping-cart** Spring Boot application.
+Folder **src/resources/** contains config files for **eshop-services-rest* Spring Boot application.
 
 * **src/resources/application.properties** - main configuration file. Here it is possible to change admin username/password,
-as well as change the port number.
+as well as change the server port number.
 
 ## How to run
 
@@ -27,11 +56,7 @@ There are several ways to run the application. You can run it from the command l
 
 Once the app starts, go to the web browser and visit `http://localhost:8070/home`
 
-Admin username: **admin**
-
-Admin password: **admin**
-
-User username: **user**
+User username: **testadmin**
 
 User password: **password**
 
@@ -54,7 +79,7 @@ $ scripts/mvnw clean package
 
 Then you can run the JAR file:
 ```bash
-$ java -jar target/shopping-cart-0.0.1-SNAPSHOT.jar
+$ java -jar target/eshop-services-rest-0.0.1-SNAPSHOT.jar
 ```
 
 ### Maven
@@ -96,14 +121,14 @@ $ mvn clean package
 To run that application, use the java -jar command, as follows:
 
 ```bash
-$ java -jar target/shopping-cart-0.0.1-SNAPSHOT.jar
+$ java -jar target/eshop-services-rest-0.0.1-SNAPSHOT.jar
 ```
 
 To exit the application, press **ctrl-c**.
 
 ### Docker
 
-It is possible to run **shopping-cart** using Docker:
+It is possible to run **Eshop-services-rest** using Docker:
 
 Build Docker image:
 ```bash

@@ -1,5 +1,8 @@
 package com.akp.controller;
 
+import com.akp.exception.EmptyShoppingCartException;
+import com.akp.exception.NotEnoughProductsInStockException;
+import com.akp.exception.OrderNotFoundException;
 import com.akp.model.Order;
 import com.akp.model.PaymentType;
 import com.akp.service.OrderService;
@@ -32,22 +35,19 @@ public class OrderController {
 
     @GetMapping("/rest/api/order/{orderId}")
     public @ResponseBody
-    ResponseEntity<Order> getOrderDetails(@PathVariable("orderId") Long orderId, Principal principal) throws Exception {
+    ResponseEntity<Order> getOrderDetails(@PathVariable("orderId") Long orderId, Principal principal) {
 
-        if (orderService.findById(orderId).isPresent() && userService.findByUsername(principal.getName()).isPresent()) {
+        if (orderService.findById(orderId).isPresent()) {
             return new ResponseEntity<Order>(orderService.findById(orderId).get(), HttpStatus.OK);
         } else {
-            throw new Exception("Invalid order id or customer is not authenticated");
+            throw new OrderNotFoundException(String.format("Invalid order id: %s or user %s is not authorized to see the details for this order", orderId, principal.getName()));
         }
     }
 
     @GetMapping("/rest/api/order/submit/{paymentType}")
     public @ResponseBody
-    ResponseEntity<Order> submitOrder(@PathVariable("paymentType") String paymentType, Principal principal) throws Exception {
-        if (userService.findByUsername(principal.getName()).isPresent()) {
-            return new ResponseEntity<Order>(orderService.submitOrder(userService.findByUsername(principal.getName()).get().getCustomer(), PaymentType.fromString(paymentType)), HttpStatus.OK);
-        } else {
-            throw new Exception("User is not authenticated");
-        }
+    ResponseEntity<Order> submitOrder(@PathVariable("paymentType") String paymentType, Principal principal) {
+
+        return new ResponseEntity<Order>(orderService.submitOrder(userService.findByUsername(principal.getName()).get().getCustomer(), PaymentType.fromString(paymentType)), HttpStatus.OK);
     }
 }

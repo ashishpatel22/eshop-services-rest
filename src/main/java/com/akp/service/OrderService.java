@@ -1,5 +1,6 @@
 package com.akp.service;
 
+import com.akp.exception.EmptyShoppingCartException;
 import com.akp.exception.NotEnoughProductsInStockException;
 import com.akp.model.Customer;
 import com.akp.model.Order;
@@ -17,5 +18,5 @@ public interface OrderService {
 
     Optional<Order> findById(Long id);
 
-    Order submitOrder(Customer customer, PaymentType paymentType) throws Exception;
+    Order submitOrder(Customer customer, PaymentType paymentType) throws EmptyShoppingCartException, NotEnoughProductsInStockException;
 }

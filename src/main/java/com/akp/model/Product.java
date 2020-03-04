@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "product")
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product implements Serializable {
 
     private static final long serialversionUID = 4L;

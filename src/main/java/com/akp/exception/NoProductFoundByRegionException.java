@@ -1,5 +1,8 @@
 package com.akp.exception;
 
+/**
+ * @author Aashish Patel
+ */
 public class NoProductFoundByRegionException extends RuntimeException {
 
     private static final String DEFAULT_MESSAGE = "No product found matching the customer region";

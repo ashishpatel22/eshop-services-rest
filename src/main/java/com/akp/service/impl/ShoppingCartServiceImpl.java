@@ -4,6 +4,8 @@ import com.akp.exception.NotEnoughProductsInStockException;
 import com.akp.model.Product;
 import com.akp.model.ShoppingCart;
 import com.akp.service.ShoppingCartService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ import java.util.Map;
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ShoppingCartServiceImpl implements ShoppingCartService, Serializable {
 
+    private static final Logger logger = LoggerFactory.getLogger(ShoppingCartServiceImpl.class);
+
     private static final long serialversionUID = 129348938L;
 
     private Map<Product, Integer> products = new HashMap<>();
@@ -37,13 +41,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService, Serializabl
      */
     @Override
     public void addProduct(Product product) {
+        logger.info("Inside addPRroduct", ShoppingCartServiceImpl.class);
         if (products.containsKey(product)) {
-            if(product.getQuantityAvailable() > products.get(product)) {
+            logger.debug(String.format("The productID=%d is existing in the cart so will increase the quantity by 1 if product inventory is sufficient ", product.getId()), ShoppingCartServiceImpl.class);
+            if (product.getQuantityAvailable() > products.get(product)) {
+                logger.info(String.format("The productId=%s has available quantity as=%d so increasing the quantity by one in the cart.", product.getId(), product.getQuantityAvailable()));
                 products.replace(product, products.get(product) + 1);
             } else
                 throw new NotEnoughProductsInStockException(product);
 
         } else if (product.getQuantityAvailable() > 0) {
+            logger.info("Adding productId=%s to the cart with quantity 1", product.getId());
             products.put(product, 1);
         } else
             throw new NotEnoughProductsInStockException(product);
@@ -57,10 +65,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService, Serializabl
      */
     @Override
     public void removeProduct(Product product) {
+        logger.info("Inside removeProduct", ShoppingCartServiceImpl.class);
         if (products.containsKey(product)) {
-            if (products.get(product) > 1)
+            logger.info(String.format("Cart has productId=", product.getId()), ShoppingCartServiceImpl.class);
+            if (products.get(product) > 1) {
+                logger.info("Decreasing the product quantity by 1", ShoppingCartServiceImpl.class);
                 products.replace(product, products.get(product) - 1);
-            else if (products.get(product) == 1) {
+            } else if (products.get(product) == 1) {
+                logger.info(String.format("Removing the productId=%s from the cart since it has just one quantity at present", product.getId()), ShoppingCartServiceImpl.class);
                 products.remove(product);
             }
         }
@@ -81,11 +93,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService, Serializabl
 
     /**
      * Clear all the items from the cart
-     *
      */
     @Override
     public void clearShoppingCart() {
-       products.clear();
+        products.clear();
     }
 
     @Override

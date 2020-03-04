@@ -2,6 +2,8 @@ package com.akp.controller;
 
 import com.akp.model.User;
 import com.akp.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,8 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationController {
 
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+
     private final UserService userService;
 
     @Autowired
@@ -26,6 +30,7 @@ public class RegistrationController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public ModelAndView registration() {
+        logger.info("Inside registration");
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
         modelAndView.addObject("user", user);
@@ -36,6 +41,7 @@ public class RegistrationController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
 
+        logger.info("Inside createNewUser");
         if (userService.findByEmail(user.getEmail()).isPresent()) {
             bindingResult
                     .rejectValue("email", "error.user",

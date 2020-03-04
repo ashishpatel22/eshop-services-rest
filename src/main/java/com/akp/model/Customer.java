@@ -2,9 +2,11 @@ package com.akp.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -21,6 +23,7 @@ import java.util.Set;
 @Entity
 @Table(name = "customer")
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Customer implements Serializable {
 
     @Id
@@ -44,6 +47,7 @@ public class Customer implements Serializable {
     private Region region;
 
     @CreationTimestamp
+    @JsonIgnore
     private LocalDateTime creationTimestamp; /* Timestamp when the user was created */
 
     @UpdateTimestamp
@@ -58,5 +62,6 @@ public class Customer implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
     @JsonIgnore
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Order> orders = new HashSet<>();
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
@@ -31,6 +32,7 @@ public class OrderItem implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Product product;
 
     @Column(name = "quantity", nullable = false)
@@ -48,5 +50,6 @@ public class OrderItem implements Serializable {
     @JoinColumn(name = "order_id", nullable = false)
     @EqualsAndHashCode.Exclude
     @JsonBackReference
+    @ToString.Exclude
     private Order order;
 }

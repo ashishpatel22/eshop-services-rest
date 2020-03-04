@@ -1,0 +1,16 @@
+package com.akp.model;
+
+import lombok.Data;
+
+@Data
+public class KeyValueContainer<K, V> {
+    private K key;
+    private V value;
+
+    public KeyValueContainer(){} // this is required by Jackson
+    public KeyValueContainer(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+    // getter and setter
+}

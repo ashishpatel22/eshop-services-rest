@@ -3,6 +3,7 @@ package com.akp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,5 +22,6 @@ public class Transaction implements Serializable {
     @JoinColumn(name = "order_id", nullable = false)
     @JsonIgnore
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Order order;
 }

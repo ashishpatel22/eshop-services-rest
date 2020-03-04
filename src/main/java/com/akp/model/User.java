@@ -1,9 +1,11 @@
 package com.akp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -33,7 +35,7 @@ public class User implements Serializable {
     @JsonIgnore
     private String password;
 
-    /* Not using email ias primary key since customer want to change the email id we will have no way
+    /* Not using email as primary key since customer want to change the email id we will have no way
      * to track the history witn previous email id in case we want to do reporting*/
     @Column(name = "email", unique = true, nullable = false)
     @Email(message = "*Please provide a valid Email")
@@ -49,15 +51,19 @@ public class User implements Serializable {
     private int active;
 
     @CreationTimestamp
+    @JsonIgnore
     private LocalDateTime creationTimestamp; /* Timestamp when the user was created */
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Collection<Role> roles;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @JsonManagedReference
+    @JsonIgnoreProperties({"creationTimestamp"})
     private Customer customer;
 }

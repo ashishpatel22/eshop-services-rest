@@ -1,6 +1,8 @@
 package com.akp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class ShoppingCart {
 
     private Map<Product, Integer> products;

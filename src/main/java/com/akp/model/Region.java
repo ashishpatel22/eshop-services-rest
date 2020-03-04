@@ -17,6 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "region")
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Region implements Serializable {
 
     @Id

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -36,6 +37,7 @@ public class Order implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Customer customer;
 
     @Column(name = "ordertotal", nullable = false)
@@ -50,10 +52,12 @@ public class Order implements Serializable {
 
     @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Transaction transaction;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "order")
     @EqualsAndHashCode.Exclude
     @JsonManagedReference
+    @ToString.Exclude
     private Set<OrderItem> orderItems = new HashSet<>();
 }

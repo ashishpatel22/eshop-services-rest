@@ -11,12 +11,12 @@ import java.util.Optional;
 
 /**
  * @author Aashish Patel
- * Contract for product services
+ * Contract for order services
  */
 
 public interface OrderService {
 
     Optional<Order> findById(Long id);
-
+    Optional<Order> findByIdByCustomer(Long id, Customer customer);
     Order submitOrder(Customer customer, PaymentType paymentType) throws EmptyShoppingCartException, NotEnoughProductsInStockException;
 }

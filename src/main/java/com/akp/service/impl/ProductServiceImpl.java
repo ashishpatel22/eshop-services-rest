@@ -4,6 +4,8 @@ import com.akp.model.Product;
 import com.akp.model.Region;
 import com.akp.repository.ProductRepository;
 import com.akp.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,8 @@ import java.util.Optional;
  */
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
 
@@ -43,6 +47,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> findAllProductsByRegionPageable(Region region, Pageable pageable) {
+        logger.info("Inside findAllProductsByRegionPageable", ProductServiceImpl.class);
         return productRepository.findAllByRegion(region, pageable);
     }
 }

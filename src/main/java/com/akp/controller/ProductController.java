@@ -6,6 +6,8 @@ import com.akp.model.User;
 import com.akp.service.ProductService;
 import com.akp.service.UserService;
 import com.akp.util.Pager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +27,8 @@ import java.util.Optional;
 @RestController
 public class ProductController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+
     private static final int INITIAL_PAGE = 0;
 
     private final ProductService productService;
@@ -42,11 +46,10 @@ public class ProductController {
 
         Optional<User> user = userService.findByUsername(principal.getName());
 
-        /* Filtering the products based on customer region */
+        logger.info("Filtering the products based on customer region");
         List<Product> products = productService.findAllProductsByRegion(user.get().getCustomer().getRegion());
 
         if(!products.isEmpty()) {
-
             return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
         }  else {
             throw new NoProductFoundByRegionException(String.format("No product found matching the customer region: %s") + user.get().getCustomer().getRegion());

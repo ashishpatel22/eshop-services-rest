@@ -64,6 +64,6 @@ public class User implements Serializable {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonManagedReference
-    @JsonIgnoreProperties({"creationTimestamp"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "creationTimestamp", "updateTimeStamp"})
     private Customer customer;
 }

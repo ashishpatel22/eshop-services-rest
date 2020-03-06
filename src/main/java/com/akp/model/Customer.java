@@ -23,7 +23,7 @@ import java.util.Set;
 @Entity
 @Table(name = "customer")
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "creationTimestamp", "updateTimeStamp"})
 public class Customer implements Serializable {
 
     @Id

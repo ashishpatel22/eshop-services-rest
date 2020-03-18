@@ -1,12 +1,11 @@
 package com.akp.service;
 
-import com.akp.exception.NotEnoughProductsInStockException;
-import com.akp.model.Product;
-import com.akp.model.ShoppingCart;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Map;
+
+import com.akp.model.Product;
+import com.akp.model.ShoppingCart;
 
 /**
  * @author Aashish Patel

@@ -1,9 +1,8 @@
 package com.akp.service.impl;
 
-import com.akp.model.Product;
-import com.akp.model.Region;
-import com.akp.repository.ProductRepository;
-import com.akp.service.ProductService;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.akp.model.Product;
+import com.akp.model.Region;
+import com.akp.repository.ProductRepository;
+import com.akp.service.ProductService;
 
 /**
  * @author Aashish Patel

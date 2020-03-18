@@ -5,7 +5,11 @@ package com.akp.exception;
  */
 public class EmptyShoppingCartException extends RuntimeException {
 
-    private static final String DEFAULT_MESSAGE = "Shopping cart is empty, no item in the shopping cart.";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6145521292862782723L;
+	private static final String DEFAULT_MESSAGE = "Shopping cart is empty, no item in the shopping cart.";
 
     public EmptyShoppingCartException() {
         super(DEFAULT_MESSAGE);

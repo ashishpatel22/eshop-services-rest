@@ -1,10 +1,9 @@
 package com.akp.controller;
 
 
-import com.akp.model.*;
-import com.google.gson.Gson;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -21,11 +20,8 @@ import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.akp.model.Product;
+import com.google.gson.Gson;
 
 
 /**

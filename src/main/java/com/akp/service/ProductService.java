@@ -1,12 +1,13 @@
 package com.akp.service;
 
-import com.akp.model.Product;
-import com.akp.model.Region;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-import java.util.Optional;
+import com.akp.model.Product;
+import com.akp.model.Region;
 
 /**
  * @author Aashish Patel

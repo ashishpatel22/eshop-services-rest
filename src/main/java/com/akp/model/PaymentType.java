@@ -6,10 +6,7 @@ public enum PaymentType implements Serializable {
 
 	CREDITCARD("CREDITCARD"), DEBITCARD("DEBITCARD"), COD("COD");
 
-	private String paymentType;
-	
 	PaymentType(String type) {
-		paymentType = type;
 	}
 	
     public static PaymentType fromString(String text) {

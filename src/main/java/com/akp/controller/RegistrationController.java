@@ -1,7 +1,7 @@
 package com.akp.controller;
 
-import com.akp.model.User;
-import com.akp.service.UserService;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
+import com.akp.model.User;
+import com.akp.service.UserService;
 
 /**
  * @author Aashish Patel

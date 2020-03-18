@@ -1,13 +1,12 @@
 package com.akp.service;
 
+import java.util.Optional;
+
 import com.akp.exception.EmptyShoppingCartException;
 import com.akp.exception.NotEnoughProductsInStockException;
 import com.akp.model.Customer;
 import com.akp.model.Order;
 import com.akp.model.PaymentType;
-import com.akp.model.ShoppingCart;
-
-import java.util.Optional;
 
 /**
  * @author Aashish Patel

@@ -1,12 +1,8 @@
 package com.akp.controller;
 
-import com.akp.exception.InvalidProductIdException;
-import com.akp.model.Product;
-import com.akp.model.ShoppingCart;
-import com.akp.model.User;
-import com.akp.service.ProductService;
-import com.akp.service.ShoppingCartService;
-import com.akp.service.UserService;
+import java.security.Principal;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
-import java.util.Optional;
+import com.akp.exception.InvalidProductIdException;
+import com.akp.model.Product;
+import com.akp.model.ShoppingCart;
+import com.akp.model.User;
+import com.akp.service.ProductService;
+import com.akp.service.ShoppingCartService;
+import com.akp.service.UserService;
 
 /**
  * @author Aashish Patel
@@ -46,7 +47,7 @@ public class ShoppingCartController {
     public @ResponseBody
     ResponseEntity<ShoppingCart> shoppingCart() {
         logger.info("Inside shoppingCart.", ShoppingCartController.class);
-        return new ResponseEntity(loadShoppingCart(), HttpStatus.OK);
+        return new ResponseEntity<ShoppingCart>(loadShoppingCart(), HttpStatus.OK);
     }
 
     private ShoppingCart loadShoppingCart() {

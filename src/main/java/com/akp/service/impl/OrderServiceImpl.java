@@ -1,28 +1,35 @@
 package com.akp.service.impl;
 
-import com.akp.controller.OrderController;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.akp.exception.EmptyShoppingCartException;
 import com.akp.exception.NotEnoughProductsInStockException;
 import com.akp.exception.OrderNotFoundException;
-import com.akp.model.*;
+import com.akp.model.Customer;
+import com.akp.model.Order;
+import com.akp.model.OrderItem;
+import com.akp.model.OrderStatus;
+import com.akp.model.PaymentType;
+import com.akp.model.Product;
+import com.akp.model.Role;
+import com.akp.model.Transaction;
 import com.akp.repository.OrderItemRepository;
 import com.akp.repository.OrderRepository;
 import com.akp.repository.ProductRepository;
 import com.akp.repository.TransactionRepository;
 import com.akp.service.OrderService;
 import com.akp.service.ShoppingCartService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.security.Principal;
-import java.util.*;
 
 /**
  * @author Aashish Patel

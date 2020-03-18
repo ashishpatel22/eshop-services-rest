@@ -7,7 +7,11 @@ import com.akp.model.Product;
  */
 public class NotEnoughProductsInStockException extends RuntimeException {
 
-    private static final String DEFAULT_MESSAGE = "Not enough products in stock";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -262880017804655649L;
+	private static final String DEFAULT_MESSAGE = "Not enough products in stock";
 
     public NotEnoughProductsInStockException() {
         super(DEFAULT_MESSAGE);

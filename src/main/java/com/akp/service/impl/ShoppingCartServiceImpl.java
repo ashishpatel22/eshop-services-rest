@@ -1,9 +1,11 @@
 package com.akp.service.impl;
 
-import com.akp.exception.NotEnoughProductsInStockException;
-import com.akp.model.Product;
-import com.akp.model.ShoppingCart;
-import com.akp.service.ShoppingCartService;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -11,11 +13,10 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import com.akp.exception.NotEnoughProductsInStockException;
+import com.akp.model.Product;
+import com.akp.model.ShoppingCart;
+import com.akp.service.ShoppingCartService;
 
 /**
  * Shopping Cart is implemented with a Map, and as a session bean
@@ -27,9 +28,12 @@ import java.util.Map;
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ShoppingCartServiceImpl implements ShoppingCartService, Serializable {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShoppingCartServiceImpl.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8916822554337085819L;
 
-    private static final long serialversionUID = 129348938L;
+	private static final Logger logger = LoggerFactory.getLogger(ShoppingCartServiceImpl.class);
 
     private Map<Product, Integer> products = new HashMap<>();
 

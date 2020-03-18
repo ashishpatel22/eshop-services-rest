@@ -1,25 +1,23 @@
 package com.akp.controller;
 
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.akp.exception.NoProductFoundByRegionException;
 import com.akp.model.Product;
 import com.akp.model.User;
 import com.akp.service.ProductService;
 import com.akp.service.UserService;
-import com.akp.util.Pager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Aashish Patel
@@ -28,8 +26,6 @@ import java.util.Optional;
 public class ProductController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
-
-    private static final int INITIAL_PAGE = 0;
 
     private final ProductService productService;
 

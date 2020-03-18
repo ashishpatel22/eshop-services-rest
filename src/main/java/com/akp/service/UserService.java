@@ -1,8 +1,8 @@
 package com.akp.service;
 
-import com.akp.model.User;
-
 import java.util.Optional;
+
+import com.akp.model.User;
 
 /**
  * @author Aashish Patel

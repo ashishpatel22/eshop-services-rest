@@ -1,8 +1,9 @@
 package com.akp.util;
 
 
-import com.akp.model.Product;
 import org.springframework.data.domain.Page;
+
+import com.akp.model.Product;
 
 /**
  * @author Aashish Patel

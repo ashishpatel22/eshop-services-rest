@@ -1,10 +1,8 @@
 package com.akp.service.impl;
 
-import com.akp.model.User;
-import com.akp.repository.CustomerRepository;
-import com.akp.repository.RoleRepository;
-import com.akp.repository.UserRepository;
-import com.akp.service.UserService;
+import java.util.Collections;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.Optional;
+import com.akp.model.User;
+import com.akp.repository.CustomerRepository;
+import com.akp.repository.RoleRepository;
+import com.akp.repository.UserRepository;
+import com.akp.service.UserService;
 
 /**
  * @author Aashish Patel
